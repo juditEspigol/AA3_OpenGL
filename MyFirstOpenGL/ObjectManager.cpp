@@ -10,64 +10,84 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::CreateObjects()
 {
-	// 1. Set Camera
+	// Set Camera
 	camera = new Camera();
 
-	// 2. Set GaemObjects
-
-	// TROLLS
+	// Leer textura
 	Texture* textureTroll = new Texture("Assets/Textures/Troll.png", GL_TEXTURE0, 0); 
 
-	gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0], 
-		Transform(glm::vec3(0.f, 0.25f, 1.1f), glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.15f)), 
-		{ 0.5f, 1.f, 0.5f, 1.f },
-		MODEL_MANAGER.models[0], textureTroll, GL_TRIANGLES));
-	
-	gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
-		Transform(glm::vec3(-0.2f, 0.25f, 1.3f), glm::vec3(0.f, 80., 0.f), glm::vec3(0.1f)), 
-		{ 1.f, 0.5f, 0.5f, 1.f }, 
-		MODEL_MANAGER.models[0], textureTroll, GL_TRIANGLES));
+	// Cargo modelo
+	Model modelTroll = LoadOBJModel("Assets/Models/Troll.obj");
 
-	gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
-		Transform(glm::vec3(0.2f, 0.25f, 1.3f), glm::vec3(0.f, 280.f, 0.f), glm::vec3(0.1f)), 
-		{ 0.5f, 0.5f, 1.f, 1.f }, 
-		MODEL_MANAGER.models[0], textureTroll, GL_TRIANGLES));
+	// 2. Set GameObjects
+	std::vector<Transform> spawnPoints = {
+		Transform(glm::vec3( 0.f,  0.f,  0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		Transform(glm::vec3( 0.f,  0.f,  0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		Transform(glm::vec3( 0.f,  0.f, -0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		Transform(glm::vec3( 0.7f, 0.f,  0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		Transform(glm::vec3(-0.7f, 0.f,  0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		Transform(glm::vec3( 0.7f, 0.f,  0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		Transform(glm::vec3(-0.7f, 0.f, -0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		Transform(glm::vec3(-0.7f, 0.f,  0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		Transform(glm::vec3( 0.7f, 0.f, -0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f))
+	};
+	std::set<int> keys; 
+	int spawnPointCount;
 
-	// ROCKS
-	Texture* textureRock = new Texture("Assets/Textures/Rock.png", GL_TEXTURE1, 1);
+	for (int i = 0;  i < 4; i++)
+	{
+		do
+		{
+			spawnPointCount = rand() % spawnPoints.size();
+		} 
+		while (keys.find(spawnPointCount) != keys.end());
 
-	gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
-		Transform(glm::vec3(0.0f, 0.25f, 1.2f), glm::vec3(0.f, 0.f, 270.f), glm::vec3(0.05f)), 
-		{ 0.9f, 0.9f, 0.9f, 1.f }, 
-		MODEL_MANAGER.models[1], textureRock, GL_TRIANGLES));
+		keys.insert(spawnPointCount); 
 
-	gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
-		Transform(glm::vec3(0.3f, 0.8f, 0.8f), glm::vec3(-10.f, 0.f, 270.f), glm::vec3(0.15f)), 
-		{ 0.3f, 0.3f, 0.3f, 1.f }, 
-		MODEL_MANAGER.models[1], textureRock, GL_TRIANGLES));
+		gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
+			spawnPoints[spawnPointCount],
+			{ 1.f, 0.5f, 0.5f },
+			modelTroll, textureTroll, GL_TRIANGLES));
+	}
 
-	gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
-		Transform(glm::vec3(-0.3f, 0.8f, 0.8f), glm::vec3(10.f, 0.f, 270.f), glm::vec3(0.15f)),
-		{ 0.3f, 0.3f, 0.3f, 1.f },
-		MODEL_MANAGER.models[1], textureRock, GL_TRIANGLES));
+	gameObjects.push_back(new OrbitingObject(PROGRAM_MANAGER.compiledPrograms[0],
+		Transform(glm::vec3(0.f, 0.7f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
+		{ 1.f, 1.f, 1.f },
+		modelTroll, textureTroll, GL_TRIANGLES));
 
-	// CUBE
+	gameObjects.push_back(new OrbitingObject(PROGRAM_MANAGER.compiledPrograms[0],
+		Transform(glm::vec3(0.f, 0.7f, 0.f), glm::vec3(0.f, 0.f, 180.f), glm::vec3(0.2f)),
+		{ 0.f, 1.f, 0.f },
+		modelTroll, textureTroll, GL_TRIANGLES));
+}
 
-	gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[1],
-		Transform (glm::vec3(0.0f, -0.16f, 1.25f), glm::vec3(0.f, 1.f, 0.f), glm::vec3(2.f)), 
-		{ 1.f, 0.8f, 0.4f, 1.f }, 
-		MODEL_MANAGER.models[2], nullptr, GL_TRIANGLE_STRIP));
+void ObjectManager::MoveCamera()
+{
+	camera->Move(GL_MANAGER.window);
+}
+
+void ObjectManager::Awake()
+{
+	camera->Awake();
+
+	for (GameObject* gObj : gameObjects)
+	{
+		gObj->Awake();
+	}
 }
 
 void ObjectManager::Update(float _dt)
 {
-	camera->Update(_dt);
-	camera->Inputs(GL_MANAGER.window);
-
 	for (GameObject* gObj : gameObjects)
 	{
 		gObj->Update(_dt);
+	}
+}
+
+void ObjectManager::Render()
+{
+	for (GameObject* gObj : gameObjects)
+	{
 		gObj->Render();
 	}
-
 }

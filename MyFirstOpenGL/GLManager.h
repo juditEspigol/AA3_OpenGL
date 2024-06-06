@@ -32,6 +32,8 @@ public:
 
 	void ActivateFrontCulling();
 	void ActivateBackCulling();
+
+	void OpacityConfiguration(); 
 };
 
 void ResizeWindow(GLFWwindow* _window, int _iFrameBufferWidth, int _iFrameBufferHeight);

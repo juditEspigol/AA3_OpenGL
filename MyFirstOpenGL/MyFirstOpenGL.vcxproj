@@ -21,20 +21,20 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="MatrixUtilities.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="GLManager.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="ProgramManager.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Stb.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MyFirstFragmentShader.glsl" />
     <None Include="MyFirstGeometryShader.glsl" />
     <None Include="MyFirstVertexShader.glsl" />
-    <None Include="PrimitiveFragmentShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -43,11 +43,12 @@
     <ClInclude Include="GLManager.h" />
     <ClInclude Include="MatrixUtilities.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="OrbitingObject.h" />
     <ClInclude Include="ProgramManager.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

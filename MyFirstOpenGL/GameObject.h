@@ -5,23 +5,27 @@
 
 class GameObject : public Object
 {
-private:
+protected:
 
 	GLuint program;
 
 	Model model;
-	glm::vec4 color; 
+	glm::vec3 color; 
 
 	GLuint renderMode;
 	Texture* texture;
 
+	glm::mat4 translationMatrix;
+	glm::mat4 rotationMatrix;
+	glm::mat4 scaleMatrix;
+
 public:
 
 	GameObject(GLuint _program, 
-		Transform _transform, glm::vec4 _color,
+		Transform _transform, glm::vec3 _color,
 		Model _model, Texture* texture, GLuint _renderMode);
 
- 
+	virtual void Awake() override; 
 	virtual void Update(float _dt) override; 
 	virtual void Render();
 };

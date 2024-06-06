@@ -45,6 +45,15 @@ void GLManager::ActivateBackCulling()
 	glEnable(GL_DEPTH_TEST);
 }
 
+void GLManager::OpacityConfiguration()
+{
+	// Habilitar el blending para activar la opacidad
+	glEnable(GL_BLEND);
+
+	//Configurar la funcion de mezcla para la opacidad
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
 void ResizeWindow(GLFWwindow* _window, int _iFrameBufferWidth, int _iFrameBufferHeight)
 {
 	// Define new viewport size

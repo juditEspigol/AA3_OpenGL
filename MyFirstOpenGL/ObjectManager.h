@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "Camera.h"
-#include "ModelManager.h"
+#include "OrbitingObject.h"
+#include <set>
 
 #define OBJECT_MANAGER ObjectManager::Instance()
 
@@ -27,6 +28,9 @@ public:
 	std::vector<GameObject*> gameObjects;
 
 	void CreateObjects();
+	void MoveCamera(); 
 
+	void Awake(); 
 	void Update(float _dt);
+	void Render(); 
 };

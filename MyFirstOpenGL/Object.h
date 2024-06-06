@@ -22,6 +22,7 @@ public:
 		:transform(_transform), scaleTime(_scaleTime)
 	{};
 
+	virtual void Awake() = 0;
 	virtual void Update(float _dt) = 0;
 	
 	inline void StopMovement() { scaleTime = 0.f; }; 
