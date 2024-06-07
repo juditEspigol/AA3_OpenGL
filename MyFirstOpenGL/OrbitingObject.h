@@ -83,9 +83,8 @@ public:
 
 	void InterpolationColors()
 	{
-		glm::vec3 posNormalize = transform.position / (
-			sqrt(transform.position.x * transform.position.x + transform.position.y * transform.position.y
-				+ transform.position.z * transform.position.z));
+		// Normalizo el vector posicion
+		glm::vec3 posNormalize = normalize(transform.position);
 
 		// Primer cuadrante
 		if (transform.position.x >= 0.f && transform.position.y > 0.f)

@@ -31,8 +31,8 @@ void Camera::Move(GLFWwindow* _window)
 		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 		
-		glUniformMatrix4fv(glGetUniformLocation(program, "frontCamera"), 1, GL_FALSE, glm::value_ptr(front));
-		glUniformMatrix4fv(glGetUniformLocation(program, "positionCamera"), 1, GL_FALSE, glm::value_ptr(transform.position));
+		glUniform3fv(glGetUniformLocation(program, "frontCamera"), 1, glm::value_ptr(front));
+		glUniform3fv(glGetUniformLocation(program, "positionCamera"), 1, glm::value_ptr(transform.position));
 	}
 }
 

@@ -13,11 +13,19 @@ void ObjectManager::CreateObjects()
 	// Set Camera
 	camera = new Camera();
 
-	// Leer textura
-	Texture* textureTroll = new Texture("Assets/Textures/Troll.png", GL_TEXTURE0, 0); 
+	// Leer texturas
+	std::vector<Texture*> textures = {
+		new Texture("Assets/Textures/Troll.png", GL_TEXTURE0, 0), 
+		new Texture("Assets/Textures/Rock.png", GL_TEXTURE1, 1),
+		new Texture("Assets/Textures/Fox.png", GL_TEXTURE2, 2)
+	};
 
-	// Cargo modelo
-	Model modelTroll = LoadOBJModel("Assets/Models/Troll.obj");
+	// Cargo modelos
+	std::vector<Model> models = {
+		LoadOBJModel("Assets/Models/Troll.obj"),
+		LoadOBJModel("Assets/Models/Rock.obj"),
+		LoadOBJModel("Assets/Models/Fox.obj")
+	};
 
 	// 2. Set GameObjects
 	std::vector<Transform> spawnPoints = {
@@ -44,21 +52,24 @@ void ObjectManager::CreateObjects()
 
 		keys.insert(spawnPointCount); 
 
+		int randomModel = rand() % 2;
+
 		gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
 			spawnPoints[spawnPointCount],
 			{ 1.f, 0.5f, 0.5f },
-			modelTroll, textureTroll, GL_TRIANGLES));
+			models[randomModel], textures[randomModel], GL_TRIANGLES));
 	}
 
-	gameObjects.push_back(new OrbitingObject(PROGRAM_MANAGER.compiledPrograms[0],
-		Transform(glm::vec3(0.f, 0.7f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		{ 1.f, 1.f, 1.f },
-		modelTroll, textureTroll, GL_TRIANGLES));
 
 	gameObjects.push_back(new OrbitingObject(PROGRAM_MANAGER.compiledPrograms[0],
-		Transform(glm::vec3(0.f, 0.7f, 0.f), glm::vec3(0.f, 0.f, 180.f), glm::vec3(0.2f)),
+		Transform(glm::vec3(0.f, 0.7f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.005f)),
+		{ 1.f, 1.f, 1.f },
+		models[2], textures[2], GL_TRIANGLES));
+
+	gameObjects.push_back(new OrbitingObject(PROGRAM_MANAGER.compiledPrograms[0],
+		Transform(glm::vec3(0.f, 0.7f, 0.f), glm::vec3(0.f, 0.f, 180.f), glm::vec3(0.005f)),
 		{ 0.f, 1.f, 0.f },
-		modelTroll, textureTroll, GL_TRIANGLES));
+		models[2], textures[2], GL_TRIANGLES));
 }
 
 void ObjectManager::MoveCamera()
