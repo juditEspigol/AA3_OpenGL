@@ -1,7 +1,6 @@
 #include "ProgramManager.h"
 #include "GLManager.h"
 #include "ObjectManager.h"
-#include "TimeManager.h"
 
 void main() 
 {
@@ -47,14 +46,8 @@ void main()
 			// Limpiamos los buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-			// Actualizamos el time manager
-			TIME_MANAGER.Update();
-
-			// Movemos la camara 
-			OBJECT_MANAGER.MoveCamera(); 
-
 			// Actualizamos la posicion de los objetos
-			OBJECT_MANAGER.Update(TIME_MANAGER.GetDeltaTime()); 
+			OBJECT_MANAGER.Update(); 
 
 			// Renderizamos los objetos
 			OBJECT_MANAGER.Render();

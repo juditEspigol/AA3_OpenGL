@@ -5,9 +5,12 @@ glm::mat4 MatrixUtilities::GenerateTranslationMatrix(glm::vec3 _translation)
 	return glm::translate(glm::mat4(1.f), _translation);
 }
 
-glm::mat4 MatrixUtilities::GenerateRotationMatrix(glm::vec3 _axis, float _fDegrees)
+glm::mat4 MatrixUtilities::GenerateRotationMatrix(glm::vec3 _axis, glm::vec3 _fDegrees)
 {
-	return glm::rotate(glm::mat4(1.f), glm::radians(_fDegrees), glm::normalize(_axis));
+	return
+		  glm::rotate(glm::mat4(1.f), glm::radians(_fDegrees.x), glm::normalize(_axis))
+		* glm::rotate(glm::mat4(1.f), glm::radians(_fDegrees.y), glm::normalize(_axis))
+		* glm::rotate(glm::mat4(1.f), glm::radians(_fDegrees.z), glm::normalize(_axis));
 }
 
 glm::mat4 MatrixUtilities::GenerateScaleMatrix(glm::vec3 _scaleAxis)

@@ -14,17 +14,14 @@ class Object
 protected:
 	
 	Transform transform; 
-	float scaleTime; // 0 < scaleTime < n 
 
 public:
 
-	Object(Transform _transform, float _scaleTime = 1.f)
-		:transform(_transform), scaleTime(_scaleTime)
+	Object(Transform _transform)
+		:transform(_transform)
 	{};
 
 	virtual void Awake() = 0;
-	virtual void Update(float _dt) = 0;
-	
-	inline void StopMovement() { scaleTime = 0.f; }; 
+	virtual void Update() = 0;
 };
 

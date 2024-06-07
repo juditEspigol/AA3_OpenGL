@@ -2,7 +2,7 @@
 
 Camera::Camera()
 	: Object(Transform(glm::vec3(0.f, 1.7f, 4.f), glm::vec3(0.f, -90.f, 0.f))),
-	fov(45.f), near(0.1f), far(10.f), front(0.f, 0.f, -1.f)
+	fov(45.f), near(0.1f), far(10.f)
 {};
 
 void Camera::Awake()
@@ -10,28 +10,22 @@ void Camera::Awake()
 	firstMouse = true; 
 }
 
-void Camera::Update(float _dt)
+void Camera::Update()
 {
-}
-
-void Camera::Move(GLFWwindow* _window)
-{
-	// Detectamos inputs 
-	Inputs(_window);
-
-	// 3. Matrix generation
-	glm::mat4 view = glm::lookAt(transform.position, transform.position + front, transform.up);
-	glm::mat4 projection = glm::perspective(glm::radians(fov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, near, far);
+	// Matrix generation
+	viewMatrix = glm::lookAt(transform.position, transform.position + transform.forward, transform.up);
+	projectionMatrix = glm::perspective(glm::radians(fov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, near, far);
 
 	//Indicar a la tarjeta GPU que programa debe usar
 	for (GLuint program : PROGRAM_MANAGER.compiledPrograms)
 	{
 		glUseProgram(program);
 
-		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(glGetUniformLocation(program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-		
-		glUniform3fv(glGetUniformLocation(program, "frontCamera"), 1, glm::value_ptr(front));
+		// Pasar las matrices
+		glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
+		glUniformMatrix4fv(glGetUniformLocation(program, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
+		glUniform3fv(glGetUniformLocation(program, "frontCamera"), 1, glm::value_ptr(transform.forward));
 		glUniform3fv(glGetUniformLocation(program, "positionCamera"), 1, glm::value_ptr(transform.position));
 	}
 }
@@ -57,17 +51,6 @@ void Camera::Inputs(GLFWwindow* _window)
 	}
 	if (glfwGetKey(_window, GLFW_KEY_W) == GLFW_PRESS) {
 		transform.position.z -= 0.1f;
-	}
-
-	if (glfwGetKey(_window, GLFW_KEY_PERIOD) == GLFW_PRESS) {
-		fov += 1.f;
-		if (fov >= 179)
-			fov = 179;
-	}
-	if (glfwGetKey(_window, GLFW_KEY_COMMA) == GLFW_PRESS) {
-		fov -= 1.f;
-		if (fov < 1.f)
-			fov = 1.f;
 	}
 
 	glfwGetCursorPos(_window, &mousePosition.x, &mousePosition.y);
@@ -101,7 +84,7 @@ void Camera::MouseCallBack(GLFWwindow* _window, double _xPos, double _yPos) {
 	if (transform.rotation.z < -89.0f)
 		transform.rotation.z = -89.0f;
 
-	front = glm::normalize(glm::vec3(
+	transform.forward = glm::normalize(glm::vec3(
 		cos(glm::radians(transform.rotation.y))* cos(glm::radians(transform.rotation.z)),
 		sin(glm::radians(transform.rotation.z)),
 		sin(glm::radians(transform.rotation.y)) * cos(glm::radians(transform.rotation.z))

@@ -10,10 +10,6 @@ protected:
 	GLuint program;
 
 	Model model;
-	glm::vec3 color; 
-
-	GLuint renderMode;
-	Texture* texture;
 
 	glm::mat4 translationMatrix;
 	glm::mat4 rotationMatrix;
@@ -21,11 +17,10 @@ protected:
 
 public:
 
-	GameObject(GLuint _program, 
-		Transform _transform, glm::vec3 _color,
-		Model _model, Texture* texture, GLuint _renderMode);
+	GameObject(GLuint _program, Transform _transform, Model _model);
 
 	virtual void Awake() override; 
-	virtual void Update(float _dt) override; 
+	virtual void Update() override; 
+
 	virtual void Render();
 };

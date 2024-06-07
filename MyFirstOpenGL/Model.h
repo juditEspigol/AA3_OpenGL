@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include "Texture.h"
 
 class Model 
 {
@@ -16,22 +17,24 @@ private:
     GLuint colorVBO; 
     unsigned int numVertexs;
 
-public:
-  
-    // Constructor for game objects with texture
-    Model(const std::vector<float>& _vertexs, const std::vector<float>& _uvs, const std::vector<float>& _normals);
-    // Constructor for primitives
-    Model(const std::vector<float>& _vertexs);
+    Texture* texture; 
+    GLuint renderMode; 
 
-    // GETTERS 
-    inline GLuint GetVAO() const { return VAO; }; 
-    inline GLuint GetVBO() const { return VBO; }; 
-    inline GLuint GetUvVBO() const { return uvVBO; }; 
-    inline unsigned int GetNumVertexs() const { return numVertexs; }; 
+public:
+
+    // Constructor for game objects with texture
+    Model(const std::vector<float>& _vertexs, const std::vector<float>& _uvs, const std::vector<float>& _normals, Texture* _texture, GLuint _renderMode);
+    // Constructor for primitives
+    Model(const std::vector<float>& _vertexs, Texture* _texture, GLuint _renderMode);
+
+    void Render(); 
+
+    inline bool HasTexture() const { return texture == nullptr? false : true; }; 
+    inline int GetTextureIndex() const { return texture->textureIndex; }; 
 
 };
 
-Model LoadOBJModel(const std::string& _filePath);
-Model LoadPrimitive(const std::vector<float>& _vertexs);
+Model LoadOBJModel(const std::string& _filePath, Texture* _texture, GLuint _renderMode);
+Model LoadPrimitive(const std::vector<float>& _vertexs, Texture* _texture, GLuint _renderMode);
 
 #endif

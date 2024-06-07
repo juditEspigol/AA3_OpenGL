@@ -1,7 +1,12 @@
 #include "Model.h"
 
-Model::Model(const std::vector<float>& _vertexs, const std::vector<float>& _uvs, const std::vector<float>& _normals) {
+Model::Model(const std::vector<float>& _vertexs, const std::vector<float>& _uvs, const std::vector<float>& _normals, Texture* _texture, GLuint _renderMode) {
     
+	// Seteamos la textura del modelo
+	this->texture = _texture;
+
+	this->renderMode = _renderMode; 
+
     //Almaceno la cantidad de vertices que habra
     this->numVertexs = _vertexs.size() / 3;
 
@@ -40,8 +45,13 @@ Model::Model(const std::vector<float>& _vertexs, const std::vector<float>& _uvs,
 
 }
 
-Model::Model(const std::vector<float>& _vertexs)
+Model::Model(const std::vector<float>& _vertexs, Texture* _texture, GLuint _renderMode)
 {
+	// Setemamos la textura del modelo
+	this->texture = _texture; 
+
+	this->renderMode = _renderMode;
+
     //Almaceno la cantidad de vertices que habra
     this->numVertexs = _vertexs.size() / 3;
 
@@ -65,7 +75,19 @@ Model::Model(const std::vector<float>& _vertexs)
     glBindVertexArray(0);
 }
 
-Model LoadOBJModel(const std::string& _filePath)
+void Model::Render()
+{
+	//Vinculo su VAO para ser usado
+	glBindVertexArray(this->VAO);
+
+	// Dibujamos
+	glDrawArrays(this->renderMode, 0, this->numVertexs);
+
+	//Desvinculamos VAO
+	glBindVertexArray(0);
+}
+
+Model LoadOBJModel(const std::string& _filePath, Texture* _texture, GLuint _renderMode)
 {
 	//Verifico archivo y si no puedo abrirlo cierro aplicativo
 	std::ifstream file(_filePath);
@@ -174,10 +196,10 @@ Model LoadOBJModel(const std::string& _filePath)
 			}
 		}
 	}
-	return Model(vertexs, textureCoordinates, vertexNormal);
+	return Model(vertexs, textureCoordinates, vertexNormal, _texture, _renderMode);
 }
 
-Model LoadPrimitive(const std::vector<float>& _vertexs)
+Model LoadPrimitive(const std::vector<float>& _vertexs, Texture* _texture, GLuint _renderMode)
 {
-	return Model(_vertexs);
+	return Model(_vertexs, _texture, _renderMode);
 }

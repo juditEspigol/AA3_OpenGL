@@ -6,8 +6,6 @@ class Camera : public Object
 {
 private:
 
-	glm::vec3 front; 
-
 	float fov;
 	float near;
 	float far;
@@ -16,16 +14,17 @@ private:
 	glm::dvec2 mousePosition; 
 	glm::vec2 lastMousePosition; 
 
+	glm::mat4 viewMatrix; 
+	glm::mat4 projectionMatrix; 
+
+	void MouseCallBack(GLFWwindow* _window, double _xPos, double _yPos);
 
 public:
 
 	Camera();
 
 	virtual void Awake() override; 
-	virtual void Update(float _dt) override;
-
-	void Move(GLFWwindow* _window);
+	virtual void Update() override;
 
 	void Inputs(GLFWwindow* _window);
-	void MouseCallBack(GLFWwindow* _window, double _xPos, double _yPos);
 };

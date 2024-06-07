@@ -28,9 +28,8 @@ public:
 	std::vector<GameObject*> gameObjects;
 
 	void CreateObjects();
-	void MoveCamera(); 
 
 	void Awake(); 
-	void Update(float _dt);
+	void Update();
 	void Render(); 
 };
