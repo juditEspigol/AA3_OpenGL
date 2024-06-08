@@ -4,6 +4,8 @@ uniform vec2 windowSize;
 uniform sampler2D textureSampler;
 
 uniform vec3 sourceLight;
+uniform int activeLight;
+
 uniform int flashActivated;
 
 uniform vec3 frontCamera; 
@@ -21,6 +23,8 @@ out vec4 fragColor;
 
 vec4 color;
 vec3 ambientColor; 
+
+float spotLight; 
 
 void main() 
 {       

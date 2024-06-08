@@ -9,7 +9,7 @@ OrbitingObject::OrbitingObject(GLuint _program, Transform _transform, Model _mod
 void OrbitingObject::Update()
 {
 	// Update movimiento
-	transform.rotation.z += 0.5;
+	transform.rotation.z += 0.3;
 	transform.position =
 	{
 		orbitRadius * cos(glm::radians(transform.rotation.y)) * cos(glm::radians(transform.rotation.z)),
@@ -59,7 +59,6 @@ void OrbitingObject::InterpolationColor()
 	// Tercer cuadrante
 	if (transform.position.x < 0.f && transform.position.y <= 0.f)
 	{
-
 		// valor del 0 al 1 ( del 1 al 0)
 		interpolationValue = -1 * posNormalize.x;
 		colorA = colors[2];
