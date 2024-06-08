@@ -8,6 +8,8 @@ Camera::Camera()
 void Camera::Awake()
 {
 	firstMouse = true; 
+	flashActivated = false; 
+	FPressed = false; 
 }
 
 void Camera::Update()
@@ -27,6 +29,8 @@ void Camera::Update()
 
 		glUniform3fv(glGetUniformLocation(program, "frontCamera"), 1, glm::value_ptr(transform.forward));
 		glUniform3fv(glGetUniformLocation(program, "positionCamera"), 1, glm::value_ptr(transform.position));
+
+		glUniform1i(glGetUniformLocation(program, "flashActivated"), flashActivated);
 	}
 }
 
@@ -51,6 +55,14 @@ void Camera::Inputs(GLFWwindow* _window)
 	}
 	if (glfwGetKey(_window, GLFW_KEY_W) == GLFW_PRESS) {
 		transform.position.z -= 0.1f;
+	}
+
+	if (glfwGetKey(_window, GLFW_KEY_F) == GLFW_PRESS && !FPressed) {
+		flashActivated = !flashActivated; 
+		FPressed = true; 
+	}
+	if (glfwGetKey(_window, GLFW_KEY_F) == GLFW_RELEASE) {
+		FPressed = false;
 	}
 
 	glfwGetCursorPos(_window, &mousePosition.x, &mousePosition.y);

@@ -34,7 +34,4 @@ public:
 
 };
 
-Model LoadOBJModel(const std::string& _filePath, Texture* _texture, GLuint _renderMode);
-Model LoadPrimitive(const std::vector<float>& _vertexs, Texture* _texture, GLuint _renderMode);
-
 #endif

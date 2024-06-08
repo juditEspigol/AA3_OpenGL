@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "ModelManager.h"
 #include "Camera.h"
 #include "OrbitingObject.h"
 #include <set>

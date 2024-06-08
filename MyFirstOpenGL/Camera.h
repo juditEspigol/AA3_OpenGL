@@ -14,6 +14,9 @@ private:
 	glm::dvec2 mousePosition; 
 	glm::vec2 lastMousePosition; 
 
+	bool flashActivated; 
+	bool FPressed; 
+
 	glm::mat4 viewMatrix; 
 	glm::mat4 projectionMatrix; 
 

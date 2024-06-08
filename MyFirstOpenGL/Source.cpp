@@ -1,6 +1,7 @@
 #include "ProgramManager.h"
 #include "GLManager.h"
 #include "ObjectManager.h"
+#include "ModelManager.h"
 
 void main() 
 {
@@ -29,8 +30,10 @@ void main()
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		
 		// Compilar shaders
-		PROGRAM_MANAGER.PushProgram("MyFirstVertexShader.glsl", "MyFirstGeometryShader.glsl", "MyFirstFragmentShader.glsl");
+		PROGRAM_MANAGER.PushProgram("VertexShader.glsl", "GeometryShader.glsl", "FragmentShader.glsl");
 
+		// Declarar instancia de Models	
+		MODEL_MANAGER.CreateModels();
 		// Declarar instancia de GameObject	
 		OBJECT_MANAGER.CreateObjects();
 

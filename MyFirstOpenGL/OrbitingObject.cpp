@@ -22,9 +22,12 @@ void OrbitingObject::Update()
 	rotationMatrix = MatrixUtilities::GenerateRotationMatrix(transform.rotation, transform.rotation);
 	scaleMatrix = MatrixUtilities::GenerateScaleMatrix(transform.scale);
 
+	//Indicar a la tarjeta GPU que programa debe usar
+	glUseProgram(program);
+
 	// Set spot light at position
 	glUniform3fv(glGetUniformLocation(program, "sourceLight"), 1, glm::value_ptr(transform.position));
-
+	 
 	// Seteamos de ambient color range
 	InterpolationColor();
 	glUniform1f(glGetUniformLocation(program, "t"), interpolationValue);
@@ -56,6 +59,7 @@ void OrbitingObject::InterpolationColor()
 	// Tercer cuadrante
 	if (transform.position.x < 0.f && transform.position.y <= 0.f)
 	{
+
 		// valor del 0 al 1 ( del 1 al 0)
 		interpolationValue = -1 * posNormalize.x;
 		colorA = colors[2];

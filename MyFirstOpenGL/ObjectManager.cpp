@@ -13,51 +13,60 @@ void ObjectManager::CreateObjects()
 	// Set Camera
 	camera = new Camera();
 
-	// Cargo modelos con su pertinente textura
-	std::vector<Model> models = {
-		LoadOBJModel("Assets/Models/Troll.obj", new Texture("Assets/Textures/Troll.png", GL_TEXTURE0, 0), GL_TRIANGLES),
-		LoadOBJModel("Assets/Models/Rock.obj", new Texture("Assets/Textures/Rock.png", GL_TEXTURE1, 1), GL_TRIANGLES),
-		LoadOBJModel("Assets/Models/Fox.obj", new Texture("Assets/Textures/Fox.png", GL_TEXTURE2, 2), GL_TRIANGLES)
-	};
-
 	// 2. Set GameObjects
-	std::vector<Transform> spawnPoints = {
-		Transform(glm::vec3( 0.f,  0.f,  0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		Transform(glm::vec3( 0.f,  0.f,  0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		Transform(glm::vec3( 0.f,  0.f, -0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		Transform(glm::vec3( 0.7f, 0.f,  0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		Transform(glm::vec3(-0.7f, 0.f,  0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		Transform(glm::vec3( 0.7f, 0.f,  0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		Transform(glm::vec3(-0.7f, 0.f, -0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		Transform(glm::vec3(-0.7f, 0.f,  0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f)),
-		Transform(glm::vec3( 0.7f, 0.f, -0.7f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.2f))
+	std::vector<glm::vec3> positionSpawns = {
+		glm::vec3( 0.f,  0.f,  0.f),
+		glm::vec3( 0.f,  0.f,  0.7f),
+		glm::vec3( 0.f,  0.f, -0.7f),
+		glm::vec3( 0.7f, 0.f,  0.f), 
+		glm::vec3(-0.7f, 0.f,  0.f), 
+		glm::vec3( 0.7f, 0.f,  0.7f),
+		glm::vec3(-0.7f, 0.f, -0.7f),
+		glm::vec3(-0.7f, 0.f,  0.7f),
+		glm::vec3( 0.7f, 0.f, -0.7f)
+	};
+	std::vector<glm::vec3> roationSpawns = {
+		glm::vec3(0.f,  90.f,  0.f), 
+		glm::vec3(0.f,  180.f,  0.f), 
+		glm::vec3(0.f,  270.f,  0.f), 
+		glm::vec3(0.f,  0.f,  0.f)
 	};
 	std::set<int> keys; 
-	int spawnPointCount;
+	int pos, rot;
 
-	for (int i = 0;  i < 4; i++)
+	for (int i = 0;  i < 6; i++)
 	{
 		do
 		{
-			spawnPointCount = rand() % spawnPoints.size();
+			pos = rand() % positionSpawns.size();
+			rot = rand() % roationSpawns.size();
 		} 
-		while (keys.find(spawnPointCount) != keys.end());
+		while (keys.find(pos) != keys.end());
 
-		keys.insert(spawnPointCount); 
+		keys.insert(pos);
 
-		int randomModel = rand() % 2;
-
-		gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
-			spawnPoints[spawnPointCount], models[randomModel]));
+		if(i < 2)
+			gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0], 
+				Transform(positionSpawns[pos], roationSpawns[rot], glm::vec3(0.2f)), MODEL_MANAGER.models[0]));
+		else if(2 < i && i < 5)
+			gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0], 
+				Transform(positionSpawns[pos], roationSpawns[rot], glm::vec3(0.2f)), MODEL_MANAGER.models[1]));
+		else
+			gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0], 
+				Transform(positionSpawns[pos], roationSpawns[rot], glm::vec3(0.005f)), MODEL_MANAGER.models[2]));
 	}
 
 	// Set Orbiting objects
 	gameObjects.push_back(new OrbitingObject(PROGRAM_MANAGER.compiledPrograms[0],
 		Transform(glm::vec3(0.f, 0.7f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.1f)),
-		models[1]));
+		MODEL_MANAGER.models[1]));
 	gameObjects.push_back(new OrbitingObject(PROGRAM_MANAGER.compiledPrograms[0],
 		Transform(glm::vec3(0.f, 0.7f, 0.f), glm::vec3(0.f, 0.f, 180.f), glm::vec3(0.1f)),
-		models[1]));
+		MODEL_MANAGER.models[1]));
+
+	gameObjects.push_back(new GameObject(PROGRAM_MANAGER.compiledPrograms[0],
+		Transform(glm::vec3(0.f, -0.4f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(7.f, 1.f, 7.f)),
+		MODEL_MANAGER.models[3]));
 }
 
 void ObjectManager::Awake()

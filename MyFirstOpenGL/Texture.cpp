@@ -10,12 +10,11 @@ Texture::Texture(const char* _filePath, GLuint _textureMode, int _textureIndex)
 void Texture::InitTexture()
 {
 	//Definimos canal de textura activo
-	GLuint textureID;
 	glActiveTexture(textureMode);
 
 	//Generar textura
+	GLuint textureID;
 	glGenTextures(1, &textureID);
-
 	//Vinculamos texture
 	glBindTexture(GL_TEXTURE_2D, textureID);
 

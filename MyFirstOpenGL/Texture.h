@@ -11,11 +11,11 @@ private:
 	int width, height, nrChannels;
 	unsigned char* textureInfo;
 
+	void InitTexture(); 
+
 public:
 
 	int textureIndex;
 
 	Texture(const char* _filePath, GLuint _textureMode, int _textureIndex);
-
-	void InitTexture(); 
 };
